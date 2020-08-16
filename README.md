@@ -9,6 +9,12 @@ Let LLVM 💨💨 optimize the code for me 👩🦲🧔 I am 🌙🌙 the best �
 
 Mutable Unmutable 🚥🚥 could choose only one🚶♀🚶♀ Quick compile slow compile 😈😈 Fast and safe no matter what 💪💪 It's not 🚗🚗 like writting C 🏍🏍 Don't afraid it'll crash 👲👲 Just scare rustc 👮♂👮♂ \*Beep Beep Beep\* doesn't let me pass 😩😩 \*Beep Beep Beep Beep Beep\* Override nightly 😏😏 \*Beep Beep Beep Beep Beep\* Fearless concurrency 😎😎 \*Beep Beep Beep Beep Beep\* Unsafe secretly 🤫🤫 \*Beep Beep Beep Beep Beep\* Unwrap everything 🤪🤪
 
+## Usage
+
+```sh
+cargo run hello.c
+```
+
 ## Side Note
 
 This is an attempt to present a minimum C compiler in Rust. While my original intention is to make it completely safe but I just don't really have that much time for now. So here's the one which manipulates pointers like good old fashion way. Maybe one day I will manage to refactor it.
