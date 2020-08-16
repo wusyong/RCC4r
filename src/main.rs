@@ -939,7 +939,16 @@ pub unsafe fn stmt() {
     };
 }
 
-unsafe fn main_0(mut argc: ssize_t, mut argv: *mut *mut c_char) -> ssize_t {
+pub fn main() { unsafe {
+    let mut args: Vec<*mut c_char> = Vec::new();
+    for arg in std::env::args() {
+        args.push(std::ffi::CString::new(arg).expect("Failed to convert argument into CString.").into_raw());
+    }
+    args.push(std::ptr::null_mut());
+
+    let mut argc = (args.len() - 1) as ssize_t;
+    let mut argv = args.as_mut_ptr() as *mut *mut c_char;
+
     let mut fd: ssize_t = 0;
     let mut bt: ssize_t = 0;
     let mut ty_0: ssize_t = 0;
@@ -966,34 +975,34 @@ unsafe fn main_0(mut argc: ssize_t, mut argv: *mut *mut c_char) -> ssize_t {
     }
     if argc < 1 as ssize_t {
         printf(b"usage: c4 [-s] [-d] file ...\n\x00" as *const u8 as *const c_char);
-        return -1 as ssize_t;
+        exit(-1);
     }
     fd = open(*argv, 0 as c_int) as ssize_t;
     if fd < 0 as ssize_t {
         printf(b"could not open(%s)\n\x00" as *const u8 as *const c_char, *argv);
-        return -1 as ssize_t;
+        exit(-1);
     }
     poolsz = (256 as c_int * 1024 as c_int) as ssize_t;
     sym = malloc(poolsz as size_t) as *mut ssize_t;
     if sym.is_null() {
         printf(b"could not malloc(%d) symbol area\n\x00" as *const u8 as *const c_char, poolsz);
-        return -1 as ssize_t;
+        exit(-1);
     }
     e = malloc(poolsz as size_t) as *mut ssize_t;
     le = e;
     if le.is_null() {
         printf(b"could not malloc(%d) text area\n\x00" as *const u8 as *const c_char, poolsz);
-        return -1 as ssize_t;
+        exit(-1);
     }
     data = malloc(poolsz as size_t) as *mut c_char;
     if data.is_null() {
         printf(b"could not malloc(%d) data area\n\x00" as *const u8 as *const c_char, poolsz);
-        return -1 as ssize_t;
+        exit(-1);
     }
     sp = malloc(poolsz as size_t) as *mut ssize_t;
     if sp.is_null() {
         printf(b"could not malloc(%d) stack area\n\x00" as *const u8 as *const c_char, poolsz);
-        return -1 as ssize_t;
+        exit(-1);
     }
     memset(sym as *mut c_void, 0 as c_int, poolsz as size_t);
     memset(e as *mut c_void, 0 as c_int, poolsz as size_t);
@@ -1021,12 +1030,12 @@ unsafe fn main_0(mut argc: ssize_t, mut argv: *mut *mut c_char) -> ssize_t {
     lp = p;
     if lp.is_null() {
         printf(b"could not malloc(%d) source area\n\x00" as *const u8 as *const c_char, poolsz);
-        return -1 as ssize_t;
+        exit(-1);
     }
     i = read(fd as c_int, p as *mut c_void, (poolsz - 1 as ssize_t) as size_t);
     if i <= 0 as ssize_t {
         printf(b"read() returned %d\n\x00" as *const u8 as *const c_char, i);
-        return -1 as ssize_t;
+        exit(-1);
     }
     *p.offset(i as isize) = 0 as c_int as c_char;
     close(fd as c_int);
@@ -1051,14 +1060,14 @@ unsafe fn main_0(mut argc: ssize_t, mut argv: *mut *mut c_char) -> ssize_t {
                 while tk != '}' as ssize_t {
                     if tk != Id as ssize_t {
                         printf(b"%d: bad enum identifier %d\n\x00" as *const u8 as *const c_char, line, tk);
-                        return -1 as ssize_t;
+                        exit(-1);
                     }
                     next();
                     if tk == Assign as ssize_t {
                         next();
                         if tk != Num as ssize_t {
                             printf(b"%d: bad enum initializer\n\x00" as *const u8 as *const c_char, line);
-                            return -1 as ssize_t;
+                            exit(-1);
                         }
                         i = ival;
                         next();
@@ -1082,11 +1091,11 @@ unsafe fn main_0(mut argc: ssize_t, mut argv: *mut *mut c_char) -> ssize_t {
             }
             if tk != Id as ssize_t {
                 printf(b"%d: bad global declaration\n\x00" as *const u8 as *const c_char, line);
-                return -1 as ssize_t;
+                exit(-1);
             }
             if *id.offset(Class as ssize_t) != 0 {
                 printf(b"%d: duplicate global definition\n\x00" as *const u8 as *const c_char, line);
-                return -1 as ssize_t;
+                exit(-1);
             }
             next();
             *id.offset(Type as ssize_t) = ty_0;
@@ -1110,11 +1119,11 @@ unsafe fn main_0(mut argc: ssize_t, mut argv: *mut *mut c_char) -> ssize_t {
                     }
                     if tk != Id as ssize_t {
                         printf(b"%d: bad parameter declaration\n\x00" as *const u8 as *const c_char, line);
-                        return -1 as ssize_t;
+                        exit(-1);
                     }
                     if *id.offset(Class as ssize_t) == Loc as ssize_t {
                         printf(b"%d: duplicate parameter definition\n\x00" as *const u8 as *const c_char, line);
-                        return -1 as ssize_t;
+                        exit(-1);
                     }
                     *id.offset(HClass as ssize_t) = *id.offset(Class as ssize_t);
                     *id.offset(Class as ssize_t) = Loc as ssize_t;
@@ -1131,7 +1140,7 @@ unsafe fn main_0(mut argc: ssize_t, mut argv: *mut *mut c_char) -> ssize_t {
                 next();
                 if tk != '{' as ssize_t {
                     printf(b"%d: bad function definition\n\x00" as *const u8 as *const c_char, line);
-                    return -1 as ssize_t;
+                    exit(-1);
                 }
                 i += 1;
                 loc = i;
@@ -1147,11 +1156,11 @@ unsafe fn main_0(mut argc: ssize_t, mut argv: *mut *mut c_char) -> ssize_t {
                         }
                         if tk != Id as ssize_t {
                             printf(b"%d: bad local declaration\n\x00" as *const u8 as *const c_char, line);
-                            return -1 as ssize_t;
+                            exit(-1);
                         }
                         if *id.offset(Class as ssize_t) == Loc as ssize_t {
                             printf(b"%d: duplicate local definition\n\x00" as *const u8 as *const c_char, line);
-                            return -1 as ssize_t;
+                            exit(-1);
                         }
                         *id.offset(HClass as ssize_t) = *id.offset(Class as ssize_t);
                         *id.offset(Class as ssize_t) = Loc as ssize_t;
@@ -1199,10 +1208,10 @@ unsafe fn main_0(mut argc: ssize_t, mut argv: *mut *mut c_char) -> ssize_t {
     pc = *idmain.offset(Val as ssize_t) as *mut ssize_t;
     if pc.is_null() {
         printf(b"main() not defined\n\x00" as *const u8 as *const c_char);
-        return -1 as ssize_t;
+        exit(-1);
     }
     if src != 0 {
-        return 0 as ssize_t;
+        exit(0);
     }
     // setup stack
     sp = (sp as ssize_t + poolsz) as *mut ssize_t; // call exit if main returns
@@ -1349,18 +1358,10 @@ unsafe fn main_0(mut argc: ssize_t, mut argv: *mut *mut c_char) -> ssize_t {
             a = memcmp(*sp.offset(2 as ssize_t) as *mut c_char as *const c_void, *sp.offset(1 as ssize_t) as *mut c_char as *const c_void, *sp as size_t) as ssize_t
         } else if i == EXIT as ssize_t {
             printf(b"exit(%d) cycle = %d\n\x00" as *const u8 as *const c_char, *sp, cycle);
-            return *sp;
+            exit(*sp as i32);
         } else {
             printf(b"unknown instruction = %d! cycle = %d\n\x00" as *const u8 as *const c_char, i, cycle);
-            return -1 as ssize_t;
+            exit(-1);
         }
     }
-}
-pub fn main() {
-    let mut args: Vec<*mut c_char> = Vec::new();
-    for arg in std::env::args() {
-        args.push(std::ffi::CString::new(arg).expect("Failed to convert argument into CString.").into_raw());
-    }
-    args.push(std::ptr::null_mut());
-    unsafe { std::process::exit(main_0((args.len() - 1) as ssize_t, args.as_mut_ptr() as *mut *mut c_char) as i32) }
-}
+}}

@@ -5,6 +5,7 @@ authors = ["Ngo Iok Ui <wusyong9104@gmail.com>"]
 edition = "2018"
 description = "C compiler implemented in Rust with only 4 raw-functions"
 readme = "README.md"
+license = "MIT"
 
 [dependencies]
 libc = "0.2"
