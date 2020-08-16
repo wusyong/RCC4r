@@ -5,7 +5,7 @@ RCC4r is a **Rust** impl. of toy **C Compiler** with only **4 Raw** functions.
 
 Rumble Rumble 🤣🤣 Put the pedal to the metal 😏😏😏 Sick move 😎😎😎 Start the engine 🔑🔑🔑 Start the engine +🚗+👉+🚗
 
-Let LLVM 💨💨 optimize the code for me 👩🦲🧔 I am 🌙🌙 the best 😎 developer literally 🤓🤓 Make 😯 people who saw thought it's a dream 😱😱 Haven't woke up 😴😴 Programs already complete 👻👻 Rust 💨💨 checks memor) safety for me 😲😲 I am the most 🤙🤙 efficient engineer literally 😵😵 Make 😨😨 people who saw want to believe 😭😭 0⃣ to 💯K only 4⃣ functions😏😏
+Let LLVM 💨💨 optimize the code for me 👩🦲🧔 I am 🌙🌙 the best 😎 developer literally 🤓🤓 Make 😯 people who saw thought it's a dream 😱😱 Haven't woke up 😴😴 Programs already complete 👻👻 Rust 💨💨 checks memory safety for me 😲😲 I am the most 🤙🤙 efficient engineer literally 😵😵 Make 😨😨 people who saw want to believe 😭😭 0⃣ to 💯K only 4⃣ functions😏😏
 
 Mutable Unmutable 🚥🚥 could choose only one🚶♀🚶♀ Quick compile slow compile 😈😈 Fast and safe no matter what 💪💪 It's not 🚗🚗 like writting C 🏍🏍 Don't afraid it'll crash 👲👲 Just scare rustc 👮♂👮♂ \*Beep Beep Beep\* doesn't let me pass 😩😩 \*Beep Beep Beep Beep Beep\* Override nightly 😏😏 \*Beep Beep Beep Beep Beep\* Fearless concurrency 😎😎 \*Beep Beep Beep Beep Beep\* Unsafe secretly 🤫🤫 \*Beep Beep Beep Beep Beep\* Unwrap everything 🤪🤪
 
