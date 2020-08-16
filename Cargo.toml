@@ -1,0 +1,10 @@
+[package]
+name = "rcc4r"
+version = "0.1.0"
+authors = ["Ngo Iok Ui <wusyong9104@gmail.com>"]
+edition = "2018"
+description = "C compiler implemented in Rust with only 4 raw-functions"
+readme = "README.md"
+
+[dependencies]
+libc = "0.2"
